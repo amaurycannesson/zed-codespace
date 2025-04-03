@@ -5,14 +5,28 @@ schemaVersion: 1.0
 phases:
   - name: build
     steps:
-      - name: InstallPackages
+      - name: Setup
         action: ExecuteBash
         inputs:
           commands:
+            # Install packges
             - yum install -y wget zsh git nodejs util-linux-user
+
+            # Use zsh for ec2-user
             - chsh -s "$(which zsh)" ec2-user
+
+            # Install oh-my-zsh
             - sudo -u ec2-user sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
+
+            # Install zsh plugins
+            - git clone https://github.com/zsh-users/zsh-autosuggestions /home/ec2-user/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+            - git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /home/ec2-user/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+            - sed -i 's/plugins=(git)/plugins=(git zsh-autosuggestions zsh-syntax-highlighting aws)/' /home/ec2-user/.zshrc
+
+            # Install starship
             - curl -sS https://starship.rs/install.sh | sh -s -- -y
             - echo 'eval "$(starship init zsh)"' >> /home/ec2-user/.zshrc
+
+            # Add workspaces folder
             - mkdir /home/ec2-user/workspaces
             - chown ec2-user:ec2-user /home/ec2-user/workspaces
