@@ -1,0 +1,18 @@
+name: Setup
+description: Setup Zed Codespace
+schemaVersion: 1.0
+
+phases:
+  - name: build
+    steps:
+      - name: InstallPackages
+        action: ExecuteBash
+        inputs:
+          commands:
+            - yum install -y wget zsh git nodejs util-linux-user
+            - chsh -s "$(which zsh)" ec2-user
+            - sudo -u ec2-user sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
+            - curl -sS https://starship.rs/install.sh | sh -s -- -y
+            - echo 'eval "$(starship init zsh)"' >> /home/ec2-user/.zshrc
+            - mkdir /home/ec2-user/workspaces
+            - chown ec2-user:ec2-user /home/ec2-user/workspaces

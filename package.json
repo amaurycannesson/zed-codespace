@@ -1,0 +1,26 @@
+{
+  "name": "zed-codespace",
+  "version": "0.1.0",
+  "bin": {
+    "zed-codespace": "bin/zed-codespace.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "cdk": "cdk",
+    "cdk:destroy": "cdk destroy -f --all",
+    "cdk:deploy": "cdk deploy --all --require-approval never --outputs-file outputs.json",
+    "ec2:start": "node script.js start",
+    "ec2:stop": "node script.js stop"
+  },
+  "devDependencies": {
+    "@types/node": "22.7.9",
+    "aws-cdk": "2.1006.0",
+    "ts-node": "^10.9.2",
+    "typescript": "~5.6.3"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "2.185.0",
+    "constructs": "^10.0.0"
+  }
+}
