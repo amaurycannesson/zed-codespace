@@ -14,9 +14,11 @@ npm run cdk:deploy
 Update HostName with the Elastic Ip.
 
 `$HOME/.ssh/config`
+
 ```
 Host zed-codespace
   ForwardAgent yes
+  ForwardX11 yes
   User ec2-user
   HostName <elastic-ip>
 ```
@@ -24,6 +26,7 @@ Host zed-codespace
 ## Configure zed
 
 `$HOME/.config/zed/settings.json`
+
 ```json
 {
   "ssh_connections": [
@@ -42,7 +45,7 @@ Host zed-codespace
         }
       ]
     }
-  ],
+  ]
   // ...
 }
 ```

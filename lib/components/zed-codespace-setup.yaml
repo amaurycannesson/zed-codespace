@@ -9,8 +9,14 @@ phases:
         action: ExecuteBash
         inputs:
           commands:
-            # Install packges
-            - yum install -y wget zsh git nodejs util-linux-user
+            # Install common packges
+            - yum install -y wget zsh git util-linux-user
+            # Python deps
+            - yum install -y gcc zlib-devel bzip2 bzip2-devel patch readline-devel sqlite sqlite-devel openssl-devel tk-devel libffi-devel
+            # X11 Forwarding
+            - yum install -y xorg-x11-xauth
+            # Playwright deps
+            - yum install -y atk at-spi2-atk cups-libs libdrm libxcb libxkbcommon at-spi2-core libX11 libXcomposite libXdamage libXext libXfixes libXrandr mesa-libgbm pango cairo alsa-lib
 
             # Use zsh for ec2-user
             - chsh -s "$(which zsh)" ec2-user
@@ -21,7 +27,10 @@ phases:
             # Install zsh plugins
             - git clone https://github.com/zsh-users/zsh-autosuggestions /home/ec2-user/.oh-my-zsh/custom/plugins/zsh-autosuggestions
             - git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /home/ec2-user/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-            - sed -i 's/plugins=(git)/plugins=(git zsh-autosuggestions zsh-syntax-highlighting aws)/' /home/ec2-user/.zshrc
+            - git clone https://github.com/lukechilds/zsh-nvm /home/ec2-user/.oh-my-zsh/custom/plugins/zsh-nvm
+            - git clone https://github.com/mattberther/zsh-pyenv /home/ec2-user/.oh-my-zsh/custom/plugins/zsh-pyenv
+            - git clone https://github.com/ptavares/zsh-direnv.git /home/ec2-user/.oh-my-zsh/custom/plugins/zsh-direnv
+            - sed -i 's/plugins=(git)/plugins=(git zsh-autosuggestions zsh-syntax-highlighting aws zsh-nvm zsh-pyenv zsh-direnv)/' /home/ec2-user/.zshrc
 
             # Install starship
             - curl -sS https://starship.rs/install.sh | sh -s -- -y
